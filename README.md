@@ -6,3 +6,5 @@ Password Generator project for Rutgers Coding Bootcamp
 - CSS
 ## Description
 This is the repository for Challenge 3 of the Rutgers Coding Bootcamp. This application uses basic JavaScript to generate a random password based on a series of prompts.
+[Link to the deployed page](https://owlbag.github.io/password-generator/)
+![screenshot of page](screenshot.png)
