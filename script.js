@@ -20,6 +20,25 @@ function writePassword() {
 // Add event listener to generate button
 generateBtn.addEventListener("click", writePassword);
 
+function generatePassword() {
+  var password = "";
+  for (var i = 0; i < passwordProperties.length; i++){
+    // Add a random character for each character in the selected password length
+    password = password.concat(getRandomCharacter())
+    console.log("character #" + i + ": " + password[i]);
+  }
+
+  // Make sure that every type of character was used, if not, generate a new password
+  for (var i = 0; i < passwordProperties.selectedTypes.length; i++){
+    if (passwordProperties.selectedTypes[i] === false){
+      console.log("Generation failed! Retrying...")
+      passwordProperties.resetSelectedTypes();
+      generatePassword()
+    }
+  }
+  return password;
+}
+
 var passwordProperties = {
   setProperties: function() {
     this.length = getPasswordLength();
