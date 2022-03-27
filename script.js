@@ -24,18 +24,8 @@ function generatePassword() {
   var password = "";
   for (var i = 0; i < passwordProperties.length; i++){
     // Add a random character for each character in the selected password length
-    password = password.concat(getRandomCharacter())
-    console.log("character #" + i + ": " + password[i]);
   }
 
-  // Make sure that every type of character was used, if not, generate a new password
-  for (var i = 0; i < passwordProperties.selectedTypes.length; i++){
-    if (passwordProperties.selectedTypes[i] === false){
-      console.log("Generation failed! Retrying...")
-      passwordProperties.resetSelectedTypes();
-      generatePassword()
-    }
-  }
   return password;
 }
 
@@ -67,4 +57,23 @@ var passwordProperties = {
       }
     }
   }
+}
+
+function getPasswordLength(){
+  var length = 0;
+  // repeat until user inputs a value between 8 and 128
+  while (!(length >= 8 && length <= 128)){
+    length = window.prompt("How long would you like your password to be? (8-128)");
+  }
+
+  console.log("passwordLength: " + length);
+  return parseInt(length);
+}
+
+var constants = {
+  // messy but easy way of making arrays of each character type
+  lowercase: "abcdefghijklmnopqrstuvwxyz".split(""),
+  uppercase: "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split(""),
+  numeric: "1234567890".split(""),
+  special: " !\"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~".split("")
 }
