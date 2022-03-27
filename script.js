@@ -77,3 +77,59 @@ var constants = {
   numeric: "1234567890".split(""),
   special: " !\"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~".split("")
 }
+
+// returns a random character of a random type
+function getRandomCharacter(){
+  var currentList
+  var type = getRandomCharType();
+  switch(type){
+    case "lowercase":
+      currentList = constants.lowercase;
+      break;
+    case "uppercase":
+      currentList = constants.uppercase;
+      break;
+    case "numeric":
+      currentList = constants.numeric;
+      break;
+    case "special":
+      currentList = constants.special;
+      break;
+  }
+
+  // returns a random item from the selected array
+  return currentList[getRandomInteger(currentList.length)];
+}
+
+// returns a valid random character type
+function getRandomCharType(){
+  var acceptedTypes = [];
+
+  // iterates through each character type and adds them to an array if they were selected to be used
+  for (var i = 0; i < passwordProperties.charTypeArray.length; i++){
+    if (passwordProperties.charTypeArray[i] === true){
+      switch(i){
+        case 0:
+          acceptedTypes.push("lowercase");
+          break;
+        case 1:
+          acceptedTypes.push("uppercase");
+          break;
+        case 2:
+          acceptedTypes.push("numeric");
+          break;
+        case 3:
+          acceptedTypes.push("special");
+          break;
+      }
+    }
+  }
+
+  var returnValue = getRandomInteger(acceptedTypes.length);
+  return acceptedTypes[returnValue];
+}
+
+// returns a random integer from 0 to (max - 1)
+function getRandomInteger(max){
+  return Math.floor(Math.random() * max)
+}
