@@ -28,6 +28,8 @@ function generatePassword() {
     console.log("character #" + i + ": " + password[i]);
   }
 
+  console.log(passwordProperties.selectedTypes)
+
   // Make sure that every type of character was used, if not, generate a new password
   for (var i = 0; i < passwordProperties.selectedTypes.length; i++){
     if (passwordProperties.selectedTypes[i] === false){
@@ -44,6 +46,7 @@ var passwordProperties = {
   resetSelectedTypes: function(){
     // Used to make sure each selected type has been used
     this.selectedTypes = [!this.charTypeArray[0], !this.charTypeArray[1], !this.charTypeArray[2], !this.charTypeArray[3]];
+    console.log("selectedTypes reset, new value: " + this.selectedTypes);
   },
 
   setProperties: function() {
@@ -125,33 +128,16 @@ function getRandomCharacter(){
 
 // returns a valid random character type
 function getRandomCharType(){
-  var acceptedTypes = [];
+  var typeNames = ["lowercase", "uppercase", "numeric", "special"];
 
-  // iterates through each character type and adds them to an array if they were selected to be used
-  for (var i = 0; i < passwordProperties.charTypeArray.length; i++){
-    if (passwordProperties.charTypeArray[i] === true){
-      switch(i){
-        case 0:
-          acceptedTypes.push("lowercase");
-          break;
-        case 1:
-          acceptedTypes.push("uppercase");
-          break;
-        case 2:
-          acceptedTypes.push("numeric");
-          break;
-        case 3:
-          acceptedTypes.push("special");
-          break;
-      }
-    }
+  var returnValue = getRandomInteger(typeNames.length);
+  while (passwordProperties.charTypeArray[returnValue] === false) {
+    returnValue = getRandomInteger(typeNames.length);
   }
-
-  var returnValue = getRandomInteger(acceptedTypes.length);
-
+  
   // this adds the type selected to the selectedTypes array so this can be checked later to verify every type has been used
   passwordProperties.selectedTypes[returnValue] = true;
-  return acceptedTypes[returnValue];
+  return typeNames[returnValue];
 }
 
 // returns a random integer from 0 to (max - 1)
