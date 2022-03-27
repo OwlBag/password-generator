@@ -1,4 +1,3 @@
-
 // Assignment code here
 
 
@@ -10,6 +9,7 @@ function writePassword() {
   // Ask the user for their preferences
   passwordProperties.setProperties();
 
+  // Generate the password
   var password = generatePassword();
   var passwordText = document.querySelector("#password");
 
@@ -24,12 +24,28 @@ function generatePassword() {
   var password = "";
   for (var i = 0; i < passwordProperties.length; i++){
     // Add a random character for each character in the selected password length
+    password = password.concat(getRandomCharacter())
+    console.log("character #" + i + ": " + password[i]);
   }
 
+  // Make sure that every type of character was used, if not, generate a new password
+  for (var i = 0; i < passwordProperties.selectedTypes.length; i++){
+    if (passwordProperties.selectedTypes[i] === false){
+      console.log("Generation failed! Retrying...")
+      passwordProperties.resetSelectedTypes();
+      generatePassword()
+    }
+  }
   return password;
 }
 
 var passwordProperties = {
+
+  resetSelectedTypes: function(){
+    // Used to make sure each selected type has been used
+    this.selectedTypes = [!this.charTypeArray[0], !this.charTypeArray[1], !this.charTypeArray[2], !this.charTypeArray[3]];
+  },
+
   setProperties: function() {
     this.length = getPasswordLength();
 
@@ -43,6 +59,12 @@ var passwordProperties = {
       this.uppercase = window.confirm("Would you like to include uppercase characters?");
       this.numeric = window.confirm("Would you like to include numeric characters?");
       this.special = window.confirm("Would you like to include special characters?");
+
+      // store each selection in an array for later use
+      this.charTypeArray = [this.lowercase, this.uppercase, this.numeric, this.special];
+
+      // initialize selected types
+      this.resetSelectedTypes();
 
       // breaks the loop if at least one of the types is selected
       for (var i = 0; i < this.charTypeArray.length; i++){
@@ -126,6 +148,9 @@ function getRandomCharType(){
   }
 
   var returnValue = getRandomInteger(acceptedTypes.length);
+
+  // this adds the type selected to the selectedTypes array so this can be checked later to verify every type has been used
+  passwordProperties.selectedTypes[returnValue] = true;
   return acceptedTypes[returnValue];
 }
 
